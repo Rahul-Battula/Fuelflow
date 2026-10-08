@@ -1,0 +1,60 @@
+rules_version = '2';
+
+// Recommended Firestore security rules for FuelFlow (project fuel-flow-f7882).
+// NOT deployed automatically — paste into Firebase console → Firestore
+// Database → Rules, review, then Publish.
+//
+// Only an ACTIVE OWNER (users/{uid} with role 'owner' and status not
+// 'disabled') can read or write business data. This blocks:
+//   - strangers who create an account through the public Firebase Auth API
+//     (they have no users/{uid} profile),
+//   - staff-role and disabled accounts, even if they bypass the app,
+//   - anyone editing their own profile to make themselves an owner.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function profilePath() {
+      return /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+
+    function isActiveOwner() {
+      return signedIn()
+        && exists(profilePath())
+        && get(profilePath()).data.role == 'owner'
+        && get(profilePath()).data.status != 'disabled';
+    }
+
+    // A user may read only their own profile. Profiles (role / status) are
+    // created and changed only in the Firebase console, never by the app.
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Every collection the app uses, owner-only.
+    match /{collection}/{docId} {
+      allow read, write: if isActiveOwner() && collection in [
+        'staff',
+        'pumps',
+        'tanks',
+        'checkpoints',
+        'nozzle_readings',
+        'shift_assignments',
+        'cash_handovers',
+        'attendance',
+        'daily_manager_readings',
+        'daily_expenses',
+        'dip_charts',
+        'dip_entries',
+        'settings',
+        'shifts',
+        'pump_readings',
+        'daily_pump_readings'
+      ];
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "382058754313",
+    "project_id": "fuel-flow-f7882",
+    "storage_bucket": "fuel-flow-f7882.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382058754313:android:03435305b4cef70df8a3d8",
+        "android_client_info": {
+          "package_name": "com.example.fuelflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd-4dovLCv_Om_lI_jI4M7KXGCTZAajto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382058754313:android:f79f9163db3941c7f8a3d8",
+        "android_client_info": {
+          "package_name": "com.fuelflow.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd-4dovLCv_Om_lI_jI4M7KXGCTZAajto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
